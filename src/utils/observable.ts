@@ -1,31 +1,19 @@
-import { Observable } from "rxjs/internal/Observable";
-
-var observable = Observable.create(function(observer) {
-  observer.next(1);
-  observer.next(2);
-  observer.next(3);
+import { Observable } from 'rxjs';
+ 
+const observable = new Observable(subscriber => {
+  subscriber.next(1);
+  subscriber.next(2);
+  subscriber.next(3);
   setTimeout(() => {
-    observer.next(4);
-    observer.complete();
+    subscriber.next(4);
+    subscriber.complete();
   }, 1000);
 });
-console.log("just before subscribe");
+ 
+console.log('just before subscribe');
 observable.subscribe({
-  next: x => console.log("got value " + x),
-  error: err => console.error("something wrong occurred: " + err),
-  complete: () => console.log("done")
+  next(x) { console.log('got value ' + x); },
+  error(err) { console.error('something wrong occurred: ' + err); },
+  complete() { console.log('done'); }
 });
-console.log("just after subscribe");
-
-function testPromise(){
-  var promise = new Promise((resolve, reject) =>{
-    console.log(111)
-    resolve(111)
-  })
-  promise.then(values => {
-    console.log('then' + values)
-  })
-}
-console.log('start promise')
-testPromise()
-console.log('end promise')
+console.log('just after subscribe');

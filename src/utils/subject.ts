@@ -1,16 +1,19 @@
-import { Observable, interval } from "rxjs";
-import { Subject } from "rxjs";
-const log = console.log;
-var subject = new Subject();
+import { Subject, from } from 'rxjs';
+ 
+const subject = new Subject<number>();
+ 
 subject.subscribe({
-  next: val => log(val)
+  next: (v) => console.log(`observerA: ${v}`)
 });
 subject.subscribe({
-  next: val => log(val)
+  next: (v) => console.log(`observerB: ${v}`)
 });
-interval(500)
-var observable = Observable.create(function(observer){
-  observer.next(111)
-});
-// observale可以订阅subject
-observable.subscribe(subject)
+ 
+// subject.next(1);
+// subject.next(2);
+
+const observable = from([1, 2, 3]);
+ 
+observable.subscribe(subject);
+
+
